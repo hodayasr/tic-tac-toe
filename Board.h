@@ -1,17 +1,19 @@
 #pragma once
+
+using namespace std;
+
+#include "CharException.h"
+#include "BoardIndex.h"
+#include "BoardNode.h"
+#include "CoordinateException.h"
 #include <iostream>
 #include <list>
 #include <string>
 
-#include "BoardNode.h"
-#include "CoordinateException.h"
-#include "CharException.h"
-#include "BoardIndex.h"
 using Coordinate = BoardIndex;
 
-using namespace std;
-
-class Board{
+class Board
+{
 
 public:
     
