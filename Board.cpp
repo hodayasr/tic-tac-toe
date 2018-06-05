@@ -1,6 +1,6 @@
 #include "Board.h"
 
-//Constructor Functions -
+
 
 Board::Board(int value)
 {
@@ -15,6 +15,9 @@ Board::Board(int value)
 
 Board::Board(const Board& other)
 {
+	/*if(size()>0){
+		this->~Board();
+	}*/
 	this->n = other.size();
 	mat = new Node*[n];
 
@@ -117,4 +120,84 @@ Board& Board::operator=(const Board& db)
 		}
 	}
 	return *this;
+}
+
+Board& Board::operator=(int value){
+
+	n = value;
+	mat = new Node*[n];
+
+	for(int i = 0; i < n ;i++)
+	{
+		mat[i] = new Node[n];
+	}
+	return *this;
+}
+
+struct RGB {
+	uint8_t red, green, blue;
+public:
+	RGB() {}
+	RGB(uint8_t red, uint8_t green, uint8_t blue): red(red), green(green), blue(blue) {}
+};
+
+string Board::draw(int val){
+	const int dimx = val;
+	const int dimy = val;
+	string filename="cpp"+to_string(n)+".ppm";
+	ofstream imageFile(filename, ios::out | ios::binary);
+	imageFile << "P6" << endl << dimx <<" " << dimy << endl << 255 << endl;
+	RGB image[dimx*dimy];
+	int charsize=val/n;
+	for(int i = 0; i < n; i++)
+	{
+
+
+		for(int j = 0; j < val; j++)
+		{
+			image[charsize*val*i+j].green = (255);
+			image[charsize*i+j*val].green = (255);
+		}
+	}
+	for(int f=0;f<n;f++)
+	{
+		for(int g=0;g<n;g++)
+		{
+			if(mat[f][g].getSymbol()=='X')
+			{
+				for(int loc=1;loc<charsize;loc++)
+				{
+					image[val*charsize*f+val*loc+g*charsize+loc].red = (255);
+					image[val*charsize*f+val*loc+g*charsize+loc].green = (0);
+					image[val*charsize*f+val*loc+g*charsize+loc].blue = (0);
+					image[val*charsize*f+val*loc+charsize+g*charsize-loc].red = (255);
+					image[val*charsize*f+val*loc+charsize+g*charsize-loc].green = (0);
+					image[val*charsize*f+val*loc+charsize+g*charsize-loc].blue = (0);
+				}
+
+			}
+			else if(mat[f][g].getSymbol()=='O')
+			{
+				for(int row=1;row<charsize;row++)
+				{
+					for(int loc=1;loc<charsize;loc++)
+					{
+						int rx=charsize/2;
+						int ry=charsize/2;
+						int dx = (rx- loc) ; // horizontal offset
+						int dy = (ry-row); // vertical offset
+						if ( (dx*dx + dy*dy) <= (rx*rx))
+						{
+							image[val*charsize*f+row*val+g*charsize+loc].red = (0);
+							image[val*charsize*f+row*val+g*charsize+loc].green = (0);
+							image[val*charsize*f+row*val+g*charsize+loc].blue = (128);
+						}
+					}
+				}
+			}
+		}
+	}
+	imageFile.write(reinterpret_cast<char*>(&image), 3*dimx*dimy);
+	imageFile.close();
+	return filename;
 }
