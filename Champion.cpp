@@ -12,11 +12,9 @@ const Coordinate Champion::play(const Board& board)
 		return c;
 	}
 
-	for(int i = 1; i < board.size(); i++)
-	{
+	for(int i = 1; i < board.size(); i++){
 			c={i,board.size()-1};
-			if (board[c]=='.')
-			{
+			if (board[c]=='.') {
 				return c;
 		}
 	}

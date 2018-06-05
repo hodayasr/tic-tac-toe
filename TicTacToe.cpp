@@ -17,11 +17,9 @@ void TicTacToe::play(Player& xPlayer, Player& oPlayer)
         tryPlay(oPlayer,xPlayer);
         end++;
         if(w) break;
-        if(end==size)  break;
+        if(end==size)break;
     }
-   if(w==nullptr){
-w=&oPlayer;
-   }
+   if(w==nullptr)w=&oPlayer;
 
 }
 

@@ -7,5 +7,5 @@ IllegalCoordinateException::IllegalCoordinateException(BoardIndex index)
 
 BoardIndex IllegalCoordinateException::theCoordinate() const
 {
-	return this -> xy;
+	return this->xy;
 }
